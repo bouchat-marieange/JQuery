@@ -241,3 +241,67 @@ La bibliothèque jQuery est constituée d'un ensemble de blocs de code autonomes
 On appelle « objet jQuery » l'entité retournée par la fonction jQuery, c'est-à-dire par $(). Cet objet représente un ensemble de zéro, un ou plusieurs éléments issus du document.
 
 ## Le squelette HTML typique
+
+Voici le squelette typique d'un document HTML dans lequel on utilise du code JQuery. Il y a en fait non pas 1 squelette mais 2 (1 pour le développement et 1 pour la production). Seule une balise diffère entre ces deux versions mais elle fait toute la différence !
+
+```HTML
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Le titre du document</title>
+    <link rel="stylesheet" type="text/css" href="feuille-de-styles.css">
+  </head>
+  <body>
+    <!-- Une ou plusieurs balises HTML pour définir le contenu du document -->
+    <script src="jquery.js"></script>
+    <script src="mon-script.js"></script>
+  </body>
+</html>
+```
+La première ligne de script placé dans le body fait référence à la bibliothèque jquery.js. Celle-ci doit se trouver dans le même dossier que le fichier html si aucun autre chemin n'est indiqué dans src à par le nom du fichier de la bibliothèque jquery.js. Pour télécharger la version non minimisée et minimisé de jquery rendez-vous ici: https://jquery.com/download/ . Cliquez sur le lien qui vous intéresse puis dans la page de code qui s'affichefaite un clic droit et choisissez "Save to" et enregistrer le fichier dans le dossier de votre projet soit à la racine, soit dand un sous-dossier js dans ce cas n'oubliez pas de modifier le chemin d'accès au fichier dans la balise script de votre page html (exemple : <script src="js/jquery-3.3.1.js"></script>).
+
+La seconde ligne de script fait référence à un fichier JavaScript externe à votre page dans lequel vous placerez tout le code JQuery en rapport avec le document.
+
+Au final, on se retrouve donc avec quatre fichiers:
+
+* un document html reprenant le contenu de la page
+* une feuille de style .css qui définit la mise en forme du document
+* un fichier jquery.js qui contient la bibliothèque jQuery
+* Un fichier JavaScript externe qui contient tout le code JQuery que vous développerez
+
+Il est fortement recommandé d'externaliser les codes CSS et JQuery même si cela fonctionne en placant le code CSS et JQuery dans le document HTML. Car en externalisant le css et le jquery, on pourra facilement les réutilisez et on obtiendra aussi un code plus propre et plus facilement maintenable. On réduit le temps de développement, on minimise le risque d'erreurs puisque le mêm code sera utilisé dans les différent document HTML, la maintenance est facilité, pour effectuer une modification dans tout le site, il suffit d'agit sur la feuille de style externe et sur le fichier code javascript externe, si le code se trouve dans les fichiers HTML de chaque page, il faudra modifié ce code sur chacune des pages.
+
+### Squelette HTML en phase de production
+
+Lorsque votre code HTML/CSS/JQuery/JavaScript fonctionne à la perfection, avant d'utiliser un client FTP (type FileZilla), assurez-vous que vous faites référence à la version minimisée de la bibliothèque JQuery et que vous la chargez sur un CDN.
+
+Voici par exemple le code à utiliser avec la version minimisé du code du CDN de Google:
+
+```HTML
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Le titre du document</title>
+    <link rel="stylesheet" type="text/css" href="feuille-de-styles.css">
+  </head>
+  <body>
+    <!-- Une ou plusieurs balises HTML pour définir le contenu du document -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <script src="mon-script.js"></script>
+  </body>
+</html>
+```
+
+### Optimisation du code
+
+Voici quelques recommandations qui augmenteront les performances des pages qui contiennent du code JQuery:
+
+1. Invoquez la bibliothèque jquery.js à la fin du document (juste avant la balise </body)
+2. Insérez le code JQuery rattaché à la page dans un fichier annexe et faites référence à ce fichier justea près la balise qui indique où se trouve la bibliothèque JQuery.
+
+Ces positions stratégiques optimisent le temps de chargement de la page. De nombreux navigateurs bloquent l'exécution du code qui suit une balise <script> jusqu'à ce que cette balise ait été chargée et exécutée. En plaçant les deux balises <scriptW juste avant la balise </body>, l'affichage de la page n'est pas "freinée" par le code JQuery.
+
+
+## Attendre la disponibilité du Document
