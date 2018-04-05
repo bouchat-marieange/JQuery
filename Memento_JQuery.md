@@ -346,3 +346,106 @@ s'assure que le DOM est entièrement défini mais qu'en est-il de la feuille de 
 Si vous avez fait référence à une feuille de style entre les balises <head> et </head> de votre fichier html, l'instruction ```$(function() {``` s'assure également que la feuillle de styles est chargée. Vous pouvez donc l'interroger et la manipuler comme bon vous semble.
 
 ## Premier script : "Hello world"
+
+Dans ce premier script nous allons manipuler les éléments du DOM. Nous allons définir une balise <span> ayant pour id "texteJQ" dans le document HTML.Nous allons ensuite modifier le contenu de cette balise identifiée grâce à son id avec JQuery.
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Hello World</title>
+  </head>
+  <body>
+    Ce texte est affiché en HTML
+
+    <span id="texteJQ"></span>
+    <script src="jquery.js"></script>
+    <script src="jq-hello-world.js"></script>
+  </body>
+</html>
+```
+
+Nous effectuons le lien dans la partie head du fichier HTML avec la balise link pour la feuille de style, bien que nous n'ayons pas besoin pour l'instant de stylisé d'élément.
+
+Juste avant la balise de fermeture du body dans le fichier HTML, on place la balise script qui dirige vers le fichier contenant la bibliothèque jquery.js
+
+Ensuite, en dessous, toujours juste avant la balise </body> on place la balise script qui dirige vers notre fichier javascript "jq-hello-world.js"
+
+Contenu du fichier jq-hello-world.js
+
+```JavaScript
+$(function() {
+  $('#texteJQ').html('Hello world. Ce texte est affiché par jQuery.');
+});
+```
+
+Version commentée
+
+```JavaScript
+$(function() {
+  $('#texteJQ').html('Hello world. Ce texte est affiché par jQuery.');
+});
+
+// $(function() { }); vérifie que la totalité de l'arbre DOM a bien été chargée
+// avant d'effectuer des modifications sur celui-ci.
+//
+// Cette instruction aurait aussi pu s'écrire comme ceci:
+// jQuery(document).ready(function() {
+//   // Ici, le DOM est entièrement défini
+// });
+//
+// Ou comme ceci:
+// $(document).ready(function() {
+//   // Ici, le DOM est entièrement défini
+// });
+
+// L'instruction JQuery $('#texteJQ').html('Hello world. Ce texte est affiché par jQuery.');
+// peut s'expliquer ainsi:
+//
+// $('#texteJQ'), la première partie de l'instruction agit comme un selecteur. Elle retrouve dans le DOM l'élément
+// dont l'attribut id vaut "texteJQ". L'id est ici selon la convention du langage CSS représenté
+// par un #.
+//
+//
+// html('Hello world. Ce texte est affiché par jQuery.');
+// la seconde partie de l'instruction indique ce qui doit être modifié.
+// Dans cet exemple on utlise la méthode html() pour demander la modification
+// du contenu de la balise.
+//
+// Le point entre ces deux parties fait le lien entre le selecteur et l'action
+```
+
+Cette instruction sélectionne donc l'élément d'id "texteJQ" et y insère le texte "Hello world. Ce texte est affiché par JQuery".
+
+En ouvrant votre fichier hello-world.html dans votre navigateur vous devriez obtenir ceci.
+
+![Affichage du texte JQuery](images/helloworld.png)
+
+La première ligne est affichée en dur directement dans le code html, la seconde ligne est affichée dans la balise span portant l'id "texteJQ" grâce à l'instruction JQuery se trouvant dans le fichier externe jq-hello-world.js.
+
+### En Résumé
+
+* Le squelette d'un document qui utilise du code JQuery est différent en développement et en production.
+
+En developpement on utilise la bibliothèque jquery.js téléchargée localement
+
+Exemple : <script src="js/jquery.js"></script>
+
+En production on fait référence à la bibliothèque jquery.min.js sur un CDN.
+
+Exemple: <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+
+* Il est impératif d'attendre la disponibilité du DOM avant d'exécuter du code JQuery, sinon le code pourrait s'appliquer à un élément encore indisponible et provoquer un comportement inattendu ou même un plantage du navigateur.
+
+* En JQuery pour modifier le contenu d'une balise <span> dont l'attribut id vaut "monid", on utilise l'instruction
+
+```javascript
+$(function() {
+  $("#monid").html("texte quelconque");
+});
+```
+
+* Pour optimiser le code d'un document HTML qui utilise un feuille de styles et du code JQuery, on place les styles et le code JQuery dans des fichiers externes. La feuille de style css est appellée avec une balise <link> dans le <head> du fichier html et le code JQuery est appelé juste avant la balise </body> et juste apèrs la référenceà la bibliothèque JQuery tout deux appellée dans des balises <script>
+
+## Sélection d'éléments
