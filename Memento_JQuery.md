@@ -13,7 +13,7 @@ Lorsque vous tapez une adresse dans votre navigateur, vous utlisez un client web
 
 ![client_serveur](images/client_serveur.png)
 
-Il est important de comprendre que le code JQuery s'exécute coté client. Dans la plupart des cas, il n'y aura aucun échange avec un serveur et donc quasiment aucun délai entre le débute et la fin de l'exécution du code JQuery. Attention cependant un code JQuery mal écrit ou/et non optimisé peut nécessité de nombreuses secondes (voir minutes) pour s'éxécuter!
+Il est important de com prendre que le code JQuery s'exécute coté client. Dans la plupart des cas, il n'y aura aucun échange avec un serveur et donc quasiment aucun délai entre le débute et la fin de l'exécution du code JQuery. Attention cependant un code JQuery mal écrit ou/et non optimisé peut nécessité de nombreuses secondes (voir minutes) pour s'éxécuter!
 
 Avec JQuery vous n'êtes soumis à la disponibilité d'aucun serveur ce qui rend les temps d'éxécution très courts.
 
@@ -304,4 +304,45 @@ Voici quelques recommandations qui augmenteront les performances des pages qui c
 Ces positions stratégiques optimisent le temps de chargement de la page. De nombreux navigateurs bloquent l'exécution du code qui suit une balise <script> jusqu'à ce que cette balise ait été chargée et exécutée. En plaçant les deux balises <scriptW juste avant la balise </body>, l'affichage de la page n'est pas "freinée" par le code JQuery.
 
 
-## Attendre la disponibilité du Document
+## Attendre la disponibilité du DOM
+
+Le langage JQuery est utilisé pour manipuler le DOM (en lecture et en écriture). Le DOM étant l'arborescence du document. Pour éviter que ces manipulations commencent alors que l'arbre n'est pas encore entièrement obtenu, ce qui désorganiserai l'affichage et produirait des erreurs ou pourrait même bloquer le navigateur, on utilise un code spécifique.
+
+Le code qui permet d'attendre que l'arbre soit complet avant d'exécuter les maniulations en JQuery sur le DOM
+
+```JavaScript
+jQuery(document).ready(function() {
+  // Ici, le DOM est entièrement défini
+});
+```
+
+Cette écriture peut se simplifier en remplaçant JQuery par son alias ```$```, ce qui donne:
+
+```JavaScript
+$(document).ready(function() {
+  // Ici, le DOM est entièrement défini
+});
+```
+
+Enfin, (document).ready peut être omis pour arriver au code suivant:
+
+```JavaScript
+$(function() {
+  // Ici, le DOM est entièrement défini
+});
+```
+
+Ces trois instructions sont strictement équivalentes. Par facilité, car c'est la plus courte et la plus simple à écrire, dans la suite du cours, nous utiliserons systématiquement la troisième version. Par contre si vous consulter d'autre articles traitant de JQuery vous trouverez peut-être l'une des deux autres forme de code.
+
+Attention: JQuery peut être utilisé pour interroger/modifier le DOM, mais aussi les styles CSS du document.
+L'instruction
+```javascript
+$(function(){
+
+});
+```
+s'assure que le DOM est entièrement défini mais qu'en est-il de la feuille de style?
+
+Si vous avez fait référence à une feuille de style entre les balises <head> et </head> de votre fichier html, l'instruction ```$(function() {``` s'assure également que la feuillle de styles est chargée. Vous pouvez donc l'interroger et la manipuler comme bon vous semble.
+
+## Premier script : "Hello world"
